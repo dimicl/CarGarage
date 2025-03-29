@@ -1,9 +1,16 @@
-Ime projekta - # CarGarage
-Opis projekta - Aplikacija nam omogucava da pratimo vozila u garazi, kada su usla i kada su izasla. Uz to da obavljaju placanje parkinga i istorija posete.
+# CarGarage
+## Opis projekta 
+Aplikacija nam omogucava da pratimo vozila u garazi, kada su usla i kada su izasla. Uz to da obavljaju placanje parkinga i istorija posete.
 
+## Osnovne funkcionalnosti
+-Pravljenje novih garaza 
+-Pravljenje novih vozila
+-Istorija boravka vozila u garazi
+-Ulazak i izlazak iz garaze
+-Naplata
 
-Struktura modela
-## Models for Garage Application
+## Struktura modela
+
 Vehicle je model za osnovne podatke o vozilu, koje imaju njegov registarski broj i podaci o vlasniku
 ### Vehicle (Vozilo)
 ```csharp
@@ -87,3 +94,32 @@ public class Owner
 
 }
 ```
+
+### Instrukcije za instalaciju i pokretanje
+1. Klonirajte repozitorijum
+   ```bash
+   git clone <link>
+   ```
+2. Instalirajte potrebne pakete
+   ```bash
+   dotnet restore
+   ```
+3. Pokrenite migracije za bazu
+   ```bash
+   dotnet ef database update
+   ```
+4. Pokrenite aplikaciju
+   ```bash
+   dotnet run
+   ```
+
+### Kako koristiti aplikaciju
+- **Dodavanje garaze**: Korisnik moze registrovati novu garazu sa nazivom, lokacijom, kapacitetom i cenom po satu.
+- **Dodavanje vozila**: Registracija vozila sa osnovnim informacijama
+- **Evidencija ulaska/izlaska**: Zapisivanje vremena ulaska i izlaska
+- **Naplata**: Automatsko naplacivanje na osnovnu vremena provedenog u garazi.
+
+## Tehnicki detalji
+-**Platforma**: .NET Core 8
+-**ORM**: Entity Framework Core
+-**Baza podataka**: SQL Server
