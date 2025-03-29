@@ -22,7 +22,7 @@ public class Vehicle
     public Owner Owner { get; set; }       
 }
 ```
-Garaza ima osnovne podatke o sebi, ime, lokacija, kapacitet i lista vozila koje se trenutno nalaze u njoj
+Garaza ima osnovne podatke o sebi, ime, lokacija, kapacitet i lista vozila koje se trenutno nalaze u njoj kao i dostupna mesta za parking koja racunamo na osnovu zauzetih mesta 
 ### Garage (Garaza)
 ```csharp
  public class Garage
@@ -31,7 +31,20 @@ Garaza ima osnovne podatke o sebi, ime, lokacija, kapacitet i lista vozila koje 
      public string Name { get; set; }
      public string Location { get; set; }
      public int Capacity { get; set; }
+     public int CurrentOccupancy { get; set; }
+     public int AvailableSpots { get
+         {
+             return Capacity - CurrentOccupancy;
+         } 
+     }
+
      public ICollection<VehicleInGarage> VehicleInGarage { get; set; } = new List<VehicleInGarage>();
+
+     public bool IsFull { get
+         {
+             return CurrentOccupancy >= Capacity;
+         }
+     }
 
  }
 ```
@@ -53,17 +66,11 @@ Ovaj model je relacija izmedju vozila i garaze, fizicki znaci vozilo u garazi ko
      public DateTime? ExitTime { get; set; }
      public decimal HourlyRate { get; set; }
 
-     public decimal? TotalCharge { get; set; }
+     public int? OwnerId { get; set; }
+     public Owner? Owner { get; set; }
 
-     public void CalculateTotalCharge()
-     {
-         if(ExitTime == null) { throw new InvalidDataException("Exit time must be before calculating"); }
+     public bool IsVehicleStillInGarage { get; set; } = true;
 
-         var duration = ExitTime.Value - EntryTime;
-         var totalHours = Math.Ceiling(duration.TotalHours);
-         TotalCharge = (decimal)totalHours * HourlyRate;
-
-     }
 
  }
 ```
@@ -74,8 +81,11 @@ Payment je model koji ima svoju sumu, datum placanja i povezan je s vozilom u ga
 public class Payment
 {
     public int Id { get; set; }
-    public decimal Amount { get; set; }
+    public decimal TotalCharge { get; set; }
+    public bool IsPaid { get; set; }
+
     public DateTime PaymentTime { get; set; }
+    public DateTime ExpirationTime { get; set; } //payment time +  15min  ili krece novi obracun
     public int VehicleInGarageId { get; set; }
 
     public VehicleInGarage VehicleInGarage { get; set; } = null!;
@@ -91,10 +101,24 @@ public class Owner
     public int  Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
+    public ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
 
 }
 ```
+Application je model za pravljenje dodatnih popusta, uz osnovne informacije o korisniku kao i kredit koji se dopunjuje kako bi imali popust
+### Application (Aplikacija)
+```csharp
+public class Application
+{
+    public int ApplicationId { get; set; }
+    public int OwnerId { get; set; }
+    public Owner Owner { get; set; }
+    public ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
+    public decimal Credit { get; set; }
+    public bool HasActiveMembership { get; set; }
 
+}
+```
 ### Instrukcije za instalaciju i pokretanje
 1. Klonirajte repozitorijum
    ```bash
