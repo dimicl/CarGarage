@@ -12,17 +12,11 @@
         public DateTime? ExitTime { get; set; }
         public decimal HourlyRate { get; set; }
 
-        public decimal? TotalCharge { get; set; }
+        public int? OwnerId { get; set; }
+        public Owner? Owner { get; set; }
 
-        public void CalculateTotalCharge()
-        {
-            if(ExitTime == null) { throw new InvalidDataException("Exit time must be before calculating"); }
+        public bool IsVehicleStillInGarage { get; set; } = true;
 
-            var duration = ExitTime.Value - EntryTime;
-            var totalHours = Math.Ceiling(duration.TotalHours);
-            TotalCharge = (decimal)totalHours * HourlyRate;
-
-        }
 
     }
 }
