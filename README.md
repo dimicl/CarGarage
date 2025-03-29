@@ -120,6 +120,6 @@ public class Owner
 - **Naplata**: Automatsko naplacivanje na osnovnu vremena provedenog u garazi.
 
 ## Tehnicki detalji
--**Platforma**: .NET Core 8
--**ORM**: Entity Framework Core
--**Baza podataka**: SQL Server
+- **Platforma**: .NET Core 8
+- **ORM**: Entity Framework Core
+- **Baza podataka**: SQL Server
