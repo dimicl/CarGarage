@@ -1,7 +1,7 @@
-#CarGarage
+# CarGarage
 
-##Models for Garage Application
-###Vehicle (Vozilo)
+## Models for Garage Application
+### Vehicle (Vozilo)
 public class Vehicle
 {
     public int Id { get; set; } 
